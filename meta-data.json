@@ -280,7 +280,7 @@
                 {"slot": "Ergonomie","name": "Verbesserter Magazinfang"}
             ]
         },
-         {
+        {
             "name": "M250",
             "category": "Lange Reichweite",
             "game": "bf6_redsec",
@@ -297,5 +297,10 @@
                 {"slot": "Unterlauf","name": "Kurz,Gekerbt"}
             ]
         }
+
+
+    ]
+}
+
 
 
