@@ -1,5 +1,5 @@
 // Service Worker Version - MUSS BEI JEDER ÄNDERUNG ERHÖHT WERDEN!
-const CACHE_NAME = 'meta-app-cache-v1.0.2'; // ERHÖHT: Version für die neue Logik
+const CACHE_NAME = 'meta-app-cache-v1.0.2'; // WICHTIG: Erhöht auf 1.0.2 für das Update
 const DATA_CACHE_NAME = 'meta-data-cache-v1'; // Separater Cache für dynamische Daten
 
 // Eine Liste aller Dateien, die IMMER gecacht werden sollen (App-Shell)
@@ -7,7 +7,7 @@ const urlsToCache = [
   './',
   './index.html',
   './style.css',
-  './script.js', 
+  './script.js', // Diese Datei wird mit der neuen Version gecacht
   './manifest.json',
   // Font Awesome CSS
   'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css',
@@ -18,17 +18,24 @@ const urlsToCache = [
 
 // 1. INSTALLATION: App-Shell Dateien in den Cache legen
 self.addEventListener('install', event => {
+  console.log('Service Worker installiert. Cache-Name:', CACHE_NAME);
+  // Stellt sicher, dass der Worker nach der Installation sofort in den "waiting"-Status geht
+  // (wichtig für skipWaiting später)
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then(cache => {
-        console.log('Service Worker installiert. Caching statischer Assets.');
         return cache.addAll(urlsToCache);
       })
+      .then(() => self.skipWaiting()) // Fügt self.skipWaiting() hier hinzu, um den "waiting"-Status schneller zu beenden
   );
 });
 
 // 2. AKTIVIERUNG: Alte Caches aufräumen
 self.addEventListener('activate', event => {
+  console.log('Service Worker aktiviert.');
+  // Erzwingt die sofortige Übernahme der Kontrolle über alle Clients
+  event.waitUntil(self.clients.claim()); 
+
   event.waitUntil(
     caches.keys().then(cacheNames => {
       return Promise.all(
@@ -61,8 +68,8 @@ self.addEventListener('fetch', event => {
             return networkResponse;
           }).catch(error => {
             console.error('Daten-Update fehlgeschlagen:', error);
-            // Wenn Netzwerk fehlschlägt, den ursprünglichen Fehler weiterleiten, 
-            // falls auch kein Cache vorhanden ist.
+            // Wenn Netzwerk fehlschlägt, den ursprünglichen Fehler weiterleiten
+            throw error;
           });
           
           // Liefere entweder die gecachte Version sofort oder warte auf das Netzwerk
@@ -70,7 +77,7 @@ self.addEventListener('fetch', event => {
         });
       })
     );
-    return; // Wichtig, um die Standard-Logik zu überspringen
+    return;
   }
 
   // Standard-Strategie für App-Shell (Cache-First)
@@ -86,5 +93,15 @@ self.addEventListener('fetch', event => {
       })
   );
 });
+
+// 4. Nachrichten-Handler (WICHTIG für das Update):
+// Ermöglicht dem Hauptskript, den Service Worker zur sofortigen Übernahme (skipWaiting) zu zwingen.
+self.addEventListener('message', event => {
+  if (event.data && event.data.action === 'skipWaiting') {
+    console.log('Service Worker: skipWaiting-Befehl empfangen. Erzwinge Aktivierung...');
+    self.skipWaiting();
+  }
+});
+
 
 
