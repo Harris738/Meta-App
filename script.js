@@ -4,19 +4,20 @@
 
 let weaponData = []; 
 let currentWeaponList = []; 
-// NEU: Unterscheidung zwischen Hauptspiel (currentMainGame) und dem aktiven Filter (currentActiveGame)
-let currentMainGame = 'warzone'; // warzone, bo7, bf6 (wird für Tab-Farbe genutzt)
-let currentActiveGame = 'warzone'; // warzone, bo7, bf6_redsec, bf6_multiplayer (wird zum Filtern der Daten genutzt)
+let currentMainGame = 'warzone'; 
+let currentActiveGame = 'warzone'; 
 
-const CURRENT_APP_VERSION = "1.0.2"; // NEU: Versionsnummer der App (muss mit HTML übereinstimmen)
+const CURRENT_APP_VERSION = "1.0.2"; // ✅ KORREKTUR 1: Versionsnummer der App auf 1.0.2 erhöht
+
+// NEU: Globale Variable für den Service Worker, der gerade installiert wird
+let newWorker; // ✅ KORREKTUR 2: Hinzugefügt
 
 const weaponList = document.getElementById('weapon-list');
 const searchInput = document.getElementById('search-input');
 const filterCategory = document.getElementById('filter-category');
 const appTitle = document.getElementById('app-title'); 
-const bf6SubTabsContainer = document.getElementById('bf6-sub-tabs'); // Container für BF6 Sub-Hubs
-const controlsArea = document.querySelector('.controls-area'); // Controls Area Selektion
-// NEU: Selektion des Update Toasts
+const bf6SubTabsContainer = document.getElementById('bf6-sub-tabs'); 
+const controlsArea = document.querySelector('.controls-area'); 
 const updateToast = document.getElementById('update-toast');
 
 const FAVORITES_KEY = 'wzMetaFavorites';
@@ -614,6 +615,8 @@ function setupThemeToggle() {
     const body = document.body;
 
     settingsButton.addEventListener('click', () => {
+        // Versionsnummer im Modal setzen
+        settingsModal.querySelector('#app-version-display').textContent = `App Version: ${CURRENT_APP_VERSION}`;
         settingsModal.style.display = 'block';
     });
 
@@ -663,7 +666,7 @@ function initializeApp() {
 }
 
 // ===================================================
-// 9. NEU: Versionskontrolle & Update-Toast
+// 9. Versionskontrolle & Update-Toast
 // ===================================================
 
 /**
@@ -697,11 +700,57 @@ function showUpdateToast(newVersion) {
     // Listener für den Reload-Button hinzufügen
     const reloadButton = updateToast.querySelector('#reload-button');
     if (reloadButton) {
-        reloadButton.addEventListener('click', () => {
-            // Seite neu laden, um die neue App-Version zu laden
-            window.location.reload(true); // true erzwingt den Reload aus dem Server/Cache, was bei PWA/Offline-Cache wichtig ist
-        });
+        // Sicherstellen, dass keine alten Listener existieren
+        const newReloadHandler = () => {
+            // ✅ KORREKTUR 4: Befehl an den wartenden Service Worker senden
+            if (newWorker) {
+                console.log("Sende 'skipWaiting' an den neuen Service Worker.");
+                newWorker.postMessage({ action: 'skipWaiting' });
+            }
+            
+            // ✅ KORREKTUR 4: Danach die Seite neu laden.
+            window.location.reload(); 
+        };
+
+        // Alten EventListener entfernen (falls vorhanden) und den neuen hinzufügen
+        reloadButton.removeEventListener('click', reloadButton.oldHandler);
+        reloadButton.addEventListener('click', newReloadHandler);
+        reloadButton.oldHandler = newReloadHandler; // Speichere den Handler zum späteren Entfernen
     }
+}
+
+
+// ===================================================
+// 10. Service Worker Registrierung & Update-Handler
+// ===================================================
+// ✅ KORREKTUR 3: Hinzufügen der Service Worker Logik zur Speicherung des newWorker
+
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('./service-worker.js')
+        .then(reg => {
+            console.log('Service Worker erfolgreich registriert:', reg);
+
+            // WICHTIG: Wenn ein Update gefunden wird (neue .js oder .html gecacht), den Worker speichern
+            reg.onupdatefound = () => {
+                newWorker = reg.installing; // Den neuen, installierenden Worker speichern
+
+                newWorker.onstatechange = () => {
+                    if (newWorker.state === 'installed') {
+                        if (navigator.serviceWorker.controller) {
+                            // Ein neuer Service Worker ist installiert und wartet.
+                            // Das App-Update (Toast) wird durch checkAppVersion ausgelöst.
+                            console.log("Neuer Service Worker installiert. Warte auf meta-data.json Check.");
+                        } else {
+                            // Erster Besuch: Worker ist aktiv.
+                            console.log("Inhalt ist nun für Offline-Nutzung gecacht.");
+                        }
+                    }
+                };
+            };
+        })
+        .catch(error => {
+            console.error('Service Worker Registrierung fehlgeschlagen:', error);
+        });
 }
 
 
