@@ -18,7 +18,7 @@
     --nav-bg: #242424; 
     --nav-shadow: 0 4px 15px rgba(0, 0, 0, 0.5), 0 0 0 1px #333;
     --box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
-    --pick-rate-inline-color: #b0b0b0; /* Blau (Langstrecke) */
+    --pick-rate-inline-color: #b0b0b0; 
 
     /* Tier-Farben */
     --tier-s-color: #e74c3c; /* Rot */
@@ -222,7 +222,7 @@ main {
 }
 
 /* ========================================= */
-/* 4. FILTER & SUCHE */
+/* 4. FILTER & SUCHE (HIER WURDE KORRIGIERT) */
 /* ========================================= */
 .controls-area {
     display: flex;
@@ -230,6 +230,18 @@ main {
     padding: 15px;
     background-color: var(--bg-color);
     border-bottom: 1px solid var(--border-color);
+}
+
+/* NEU: WICHTIG für die korrekte Position des Icons */
+.search-container {
+    flex-grow: 1; 
+    position: relative; 
+}
+
+/* NEU: WICHTIG, um das Dropdown zu steuern */
+.dropdown-container {
+    flex-shrink: 0; 
+    width: 35%; 
 }
 
 .category-dropdown, #search-input {
@@ -258,6 +270,7 @@ body.light-mode .category-dropdown {
     background-size: 10px 10px;
 }
 
+/* Such-Icon: Muss absolut innerhalb des relativen .search-container positioniert werden */
 .search-icon {
     position: absolute;
     right: 10px;
@@ -604,7 +617,7 @@ body.light-mode .category-dropdown {
 
 
 /* ========================================= */
-/* 6. BOTTOM NAVIGATION (SCHWEBEND & MODERN) */
+/* 6. BOTTOM NAVIGATION (SCHWEBEND & MODERN) (HIER WURDE KORRIGIERT) */
 /* ========================================= */
 .bottom-nav {
     position: fixed; 
@@ -647,8 +660,8 @@ body.light-mode .category-dropdown {
 /* Dynamische Farbe für aktiven Nav-Item */
 .nav-item.active {
     color: var(--dynamic-primary-color, var(--primary-color-default)); 
-    /* Hintergrund leicht dynamisch getönt */
-    background-color: color-mix(in srgb, var(--dynamic-primary-color, var(--primary-color-default)) 15%, transparent);
+    /* KORRIGIERT: Ersetzt color-mix() durch sicheres RGBA */
+    background-color: rgba(255, 255, 255, 0.1);
 }
 
 .nav-item i {
