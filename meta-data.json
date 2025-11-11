@@ -1,5 +1,5 @@
 {
-    "appVersion": "1.0.1",
+    "appVersion": "1.0.2",
     "weapons": [
         {
             "name": "KILO 141",
@@ -279,7 +279,23 @@
                 {"slot": "Munition","name": "Polymerhülse"},
                 {"slot": "Ergonomie","name": "Verbesserter Magazinfang"}
             ]
+        },
+         {
+            "name": "M250",
+            "category": "Lange Reichweite",
+            "game": "bf6_redsec",
+            "tier": "B-Tier",
+            "type": "LMG",
+            "pick": "1.1",
+            "loadout": [
+                {"slot": "Mündung","name": "Leichter-Schalldämpfer"},
+                {"slot": "Lauf","name": "556MM Prototyp"},
+                {"slot": "Visier","name": "Baker 3.00X"},
+                {"slot": "Magazin","name": "50-Schuss-Gurtbeutel"},
+                {"slot": "Rechtes Zubehör","name": "120 MW Blau"},
+                {"slot": "Munition","name": "VMG"},
+                {"slot": "Unterlauf","name": "Kurz,Gekerbt"}
+            ]
         }
-    ]
-}
+
 
