@@ -1,5 +1,5 @@
 {
-    "appVersion": "1.0.6",
+    "appVersion": "1.0.7",
     "weapons": [
         {
             "name": "KILO 141",
@@ -344,11 +344,29 @@
                 {"slot": "Munition","name": "VMG"},
                 {"slot": "Unterlauf","name": "Kurz,Gerippt"}
             ]
+        },
+        {
+            "name": "SGX",
+            "category": "Kurze Reichweite",
+            "game": "bf6_multiplayer",
+            "tier": "S-Tier",
+            "type": "Maschinenpistole",
+            "pick": "8.4",
+            "loadout": [
+                {"slot": "Mündung","name": "Linearer Kompensator"},
+                {"slot": "Lauf","name": "8 Verlängert"},
+                {"slot": "Visier","name": "Offene Visierung"},
+                {"slot": "Magazin","name": "36-Schuss-Magazin"},
+                {"slot": "Munition","name": "VMG"},
+                {"slot": "Unterlauf","name": "Kurz,Gerippt"}
+            ]
         }
 
 
     ]
 }
+
+
 
 
 
