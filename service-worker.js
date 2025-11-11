@@ -8,7 +8,9 @@ const urlsToCache = [
   './style.css',
   './script.js', 
   './manifest.json',
-  // Hier alle Icons/Bilder eintragen, z.B.
+  // Font Awesome CSS für Offline-Icons hinzugefügt
+  'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css',
+  // Pfade zu deinen Bildern/Icons
   './images/icon-192x192.png',
   './images/icon-512x512.png'
 ];
@@ -19,6 +21,7 @@ self.addEventListener('install', event => {
     caches.open(CACHE_NAME)
       .then(cache => {
         console.log('Service Worker installiert. Caching statischer Assets.');
+        // Fügt alle Dateien aus der Liste dem Cache hinzu
         return cache.addAll(urlsToCache);
       })
   );
