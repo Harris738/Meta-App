@@ -1,5 +1,5 @@
 {
-    "appVersion": "1.0.2",
+    "appVersion": "1.0.3",
     "weapons": [
         {
             "name": "KILO 141",
@@ -296,11 +296,28 @@
                 {"slot": "Munition","name": "VMG"},
                 {"slot": "Unterlauf","name": "Kurz,Gekerbt"}
             ]
+        },
+        {
+            "name": "B36A4",
+            "category": "Lange Reichweite",
+            "game": "bf6_redsec",
+            "tier": "B-Tier",
+            "type": "Sturmgewehr",
+            "pick": "2.1",
+            "loadout": [
+                {"slot": "Mündung","name": "Standard-Schalldämpfer"},
+                {"slot": "Lauf","name": "18 Personalisiert"},
+                {"slot": "Visier","name": "Baker 3.00X"},
+                {"slot": "Magazin","name": "40-Schuss-Schnellmagazin"},
+                {"slot": "Munition","name": "VMG"},
+                {"slot": "Unterlauf","name": "6H64 Vertikal"}
+            ]
         }
 
 
     ]
 }
+
 
 
 
