@@ -8,12 +8,16 @@ let currentWeaponList = [];
 let currentMainGame = 'warzone'; // warzone, bo7, bf6 (wird für Tab-Farbe genutzt)
 let currentActiveGame = 'warzone'; // warzone, bo7, bf6_redsec, bf6_multiplayer (wird zum Filtern der Daten genutzt)
 
+const CURRENT_APP_VERSION = "1.0.1"; // NEU: Versionsnummer der App (muss mit HTML übereinstimmen)
+
 const weaponList = document.getElementById('weapon-list');
 const searchInput = document.getElementById('search-input');
 const filterCategory = document.getElementById('filter-category');
 const appTitle = document.getElementById('app-title'); 
 const bf6SubTabsContainer = document.getElementById('bf6-sub-tabs'); // Container für BF6 Sub-Hubs
 const controlsArea = document.querySelector('.controls-area'); // Controls Area Selektion
+// NEU: Selektion des Update Toasts
+const updateToast = document.getElementById('update-toast');
 
 const FAVORITES_KEY = 'wzMetaFavorites';
 
@@ -53,7 +57,6 @@ function updateThemeClass(gameName) {
 // ===================================================
 // 2. FAVORITEN-FUNKTIONEN (Local Storage)
 // ===================================================
-// ... (Unverändert) ...
 function loadFavorites() {
     const favoritesJson = localStorage.getItem(FAVORITES_KEY);
     return new Set(favoritesJson ? JSON.parse(favoritesJson) : []);
@@ -102,7 +105,12 @@ async function loadMetaWeapons() {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
         
-        weaponData = await response.json(); 
+        const data = await response.json(); 
+        
+        // NEU: Versions-Check ausführen
+        checkAppVersion(data.appVersion);
+        
+        weaponData = data.weapons || []; // Speichere nur die Waffendaten
         
         setupThemeToggle();
         initializeApp(); 
@@ -120,7 +128,6 @@ async function loadMetaWeapons() {
 // ===================================================
 // 4. RENDER-FUNKTIONEN (Start Hub, Meta Liste)
 // ===================================================
-// ... (Alle Render-Funktionen bleiben unverändert, da sie die Elemente verwenden, die nun durch CSS-Klassen dynamisch eingefärbt werden) ...
 
 function toggleLoadout(button) {
     const card = button.closest('.weapon-card');
@@ -234,7 +241,7 @@ function renderStartHub() {
 
     htmlContent += `
              <p class="start-tip">
-                Für eine vollständige Liste und Loadouts, wechsle zum **Meta-Tab**.
+                 Für eine vollständige Liste und Loadouts, wechsle zum **Meta-Tab**.
              </p>
         </div>
     `;
@@ -424,7 +431,6 @@ function renderFavorites() {
 // ===================================================
 // 5. FILTER & SUCHLOGIK
 // ===================================================
-// ... (Unverändert) ...
 
 function resetFilterDropdown() { 
     if (filterCategory) {
@@ -470,7 +476,6 @@ function filterAndSearch() {
 // ===================================================
 // 6. NAVIGATION LOGIK (MAIN TABS & SUB TABS)
 // ===================================================
-// ... (updateTitleAndContent, setupBottomNav unverändert) ...
 
 function updateTitleAndContent(filter) {
     
@@ -599,7 +604,6 @@ function loadInitialWarzoneState() {
 // ===================================================
 // 7. DARK / LIGHT MODE FUNKTIONALITÄT
 // ===================================================
-// ... (setupThemeToggle unverändert) ...
 function setupThemeToggle() {
     const settingsButton = document.querySelector('.settings-button');
     const settingsModal = document.getElementById('settings-modal');
@@ -658,5 +662,48 @@ function initializeApp() {
     setupGameTabs();
 }
 
+// ===================================================
+// 9. NEU: Versionskontrolle & Update-Toast
+// ===================================================
+
+/**
+ * Vergleicht die lokale App-Version mit der in den Daten gespeicherten Version.
+ * Zeigt bei Unterschied den Update-Toast an.
+ * @param {string} latestVersion - Die Versionsnummer aus meta-data.json
+ */
+function checkAppVersion(latestVersion) {
+    // Einfacher Vergleich der Versions-Strings
+    if (latestVersion && latestVersion !== CURRENT_APP_VERSION) {
+        showUpdateToast(latestVersion);
+    }
+}
+
+/**
+ * Zeigt den schwebenden Update-Toast an.
+ * @param {string} newVersion - Die neue verfügbare Versionsnummer.
+ */
+function showUpdateToast(newVersion) {
+    if (!updateToast) return;
+    
+    // Nachricht im Toast aktualisieren
+    const message = updateToast.querySelector('#toast-message');
+    if (message) {
+        message.textContent = `Neue App-Version ${newVersion} verfügbar. Bitte neu laden.`;
+    }
+    
+    // CSS-Klasse hinzufügen, um den Toast einzublenden
+    updateToast.classList.add('show');
+    
+    // Listener für den Reload-Button hinzufügen
+    const reloadButton = updateToast.querySelector('#reload-button');
+    if (reloadButton) {
+        reloadButton.addEventListener('click', () => {
+            // Seite neu laden, um die neue App-Version zu laden
+            window.location.reload(true); // true erzwingt den Reload aus dem Server/Cache, was bei PWA/Offline-Cache wichtig ist
+        });
+    }
+}
+
 
 document.addEventListener('DOMContentLoaded', loadMetaWeapons);
+
