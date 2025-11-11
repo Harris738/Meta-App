@@ -4,20 +4,56 @@
 
 let weaponData = []; 
 let currentWeaponList = []; 
-let currentActiveGame = 'warzone'; 
+// NEU: Unterscheidung zwischen Hauptspiel (currentMainGame) und dem aktiven Filter (currentActiveGame)
+let currentMainGame = 'warzone'; // warzone, bo7, bf6 (wird für Tab-Farbe genutzt)
+let currentActiveGame = 'warzone'; // warzone, bo7, bf6_redsec, bf6_multiplayer (wird zum Filtern der Daten genutzt)
 
 const weaponList = document.getElementById('weapon-list');
 const searchInput = document.getElementById('search-input');
 const filterCategory = document.getElementById('filter-category');
-const appTitle = document.getElementById('app-title'); // NEU: Selektor für den dynamischen Titel
+const appTitle = document.getElementById('app-title'); 
+const bf6SubTabsContainer = document.getElementById('bf6-sub-tabs'); // Container für BF6 Sub-Hubs
+const controlsArea = document.querySelector('.controls-area'); // Controls Area Selektion
 
 const FAVORITES_KEY = 'wzMetaFavorites';
+
+// Map für dynamische Titel (für den BF6 Hub)
+const gameTitleMap = {
+    'warzone': 'Warzone',
+    'bo7': 'Black Ops 7',
+    'bf6_redsec': 'BF6 | RedSec',
+    'bf6_multiplayer': 'BF6 | Multiplayer'
+};
+
+// ===================================================
+// NEUE FUNKTION: THEME-KLASSE AKTUALISIEREN
+// ===================================================
+
+/**
+ * Aktualisiert die Klasse auf dem Body-Tag, um spielspezifisches Styling anzuwenden.
+ * @param {string} gameName - Der Name des aktiven Hauptspiels ('warzone', 'bo7', 'bf6').
+ */
+function updateThemeClass(gameName) {
+    const body = document.body;
+    
+    // Entferne alle alten Spiel-Klassen
+    body.classList.remove('game-warzone-active', 'game-bo7-active', 'game-bf6-active');
+
+    // Füge die neue Klasse hinzu
+    if (gameName === 'warzone') {
+        body.classList.add('game-warzone-active');
+    } else if (gameName === 'bo7') {
+        body.classList.add('game-bo7-active');
+    } else if (gameName === 'bf6') {
+        body.classList.add('game-bf6-active');
+    }
+}
 
 
 // ===================================================
 // 2. FAVORITEN-FUNKTIONEN (Local Storage)
 // ===================================================
-
+// ... (Unverändert) ...
 function loadFavorites() {
     const favoritesJson = localStorage.getItem(FAVORITES_KEY);
     return new Set(favoritesJson ? JSON.parse(favoritesJson) : []);
@@ -68,6 +104,7 @@ async function loadMetaWeapons() {
         
         weaponData = await response.json(); 
         
+        setupThemeToggle();
         initializeApp(); 
         loadInitialWarzoneState();
         
@@ -83,18 +120,19 @@ async function loadMetaWeapons() {
 // ===================================================
 // 4. RENDER-FUNKTIONEN (Start Hub, Meta Liste)
 // ===================================================
+// ... (Alle Render-Funktionen bleiben unverändert, da sie die Elemente verwenden, die nun durch CSS-Klassen dynamisch eingefärbt werden) ...
 
-/**
- * Performante Funktion zum Umschalten der Loadout-Sichtbarkeit (Meta Cards).
- */
 function toggleLoadout(button) {
     const card = button.closest('.weapon-card');
     card.classList.toggle('expanded');
+    const icon = button.querySelector('i');
+    if (card.classList.contains('expanded')) {
+        icon.classList.replace('fa-chevron-down', 'fa-chevron-up');
+    } else {
+        icon.classList.replace('fa-chevron-up', 'fa-chevron-down');
+    }
 }
 
-/**
- * Performante Funktion zum Umschalten des Loadouts im Start Hub.
- */
 function toggleStartHubLoadout(button) {
     const container = button.closest('.start-hub-weapon-card');
     const icon = container.querySelector('.start-toggle-btn i'); 
@@ -103,54 +141,47 @@ function toggleStartHubLoadout(button) {
     
     if (isExpanded) {
         icon.classList.replace('fa-chevron-down', 'fa-chevron-up');
+        container.querySelector('.start-loadout-details').classList.add('visible');
     } else {
         icon.classList.replace('fa-chevron-up', 'fa-chevron-down');
+        container.querySelector('.start-loadout-details').classList.remove('visible');
     }
 }
 
 
-/**
- * Rendert die Startseite mit Top 3 Waffen und Meta-Zusammenfassung.
- */
 function renderStartHub() {
     if (!weaponList) return; 
 
-    // Filtern nach dem aktuell aktiven Spiel (Standard: warzone)
     const activeGameWeapons = weaponData.filter(w => w.game === currentActiveGame);
 
-    // 1. Daten sortieren und Top 3 holen
     const sortedWeapons = [...activeGameWeapons].sort((a, b) => parseFloat(b.pick) - parseFloat(a.pick));
     const top3Weapons = sortedWeapons.slice(0, 3);
     
-    // 2. Statistiken berechnen (nur für das aktive Spiel)
     const totalWeapons = activeGameWeapons.length;
     const absoluteMetaCount = activeGameWeapons.filter(w => parseFloat(w.pick) >= 5.0).length;
     
-    // Zähle nur Favoriten, die auch zum aktuellen Spiel gehören
     const favoriteNames = loadFavorites();
     const favoriteCount = activeGameWeapons.filter(w => favoriteNames.has(w.name)).length;
 
 
-    // Bestimme den Titel
-    const gameTitle = currentActiveGame === 'warzone' ? 'Warzone' : 'Black Ops 7';
+    const gameTitle = gameTitleMap[currentActiveGame] || 'Meta Hub';
 
-    // 3. HTML-Erstellung
     let htmlContent = `
-        <div class="start-hub-container" style="padding: 20px;">
-            <h2 style="color: var(--primary-color); margin-bottom: 25px; text-align: center;">Deine ${gameTitle} Meta-Übersicht</h2>
+        <div class="start-hub-container">
+            <h2 style="color: var(--dynamic-primary-color); margin-bottom: 25px; text-align: center;">Deine ${gameTitle} Meta-Übersicht</h2>
             
-            <div class="stat-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 30px;">
-                <div style="background-color: var(--card-bg); padding: 10px; border-radius: 8px; text-align: center; border-left: 3px solid #3498db;">
-                    <p style="font-size: 1.5em; font-weight: bold;">${totalWeapons}</p>
-                    <p style="font-size: 0.7em; color: var(--subtle-text);">Verfügbare Loadouts</p>
+            <div class="stat-grid">
+                <div class="stat-card" style="border-left: 3px solid var(--dynamic-primary-color);">
+                    <p class="stat-value">${totalWeapons}</p>
+                    <p class="stat-label">Verfügbare Loadouts</p>
                 </div>
-                <div style="background-color: var(--card-bg); padding: 10px; border-radius: 8px; text-align: center; border-left: 3px solid var(--secondary-color);">
-                    <p style="font-size: 1.5em; font-weight: bold;">${absoluteMetaCount}</p>
-                    <p style="font-size: 0.7em; color: var(--subtle-text);">Absolute Meta</p>
+                <div class="stat-card" style="border-left: 3px solid var(--dynamic-primary-color);">
+                    <p class="stat-value">${absoluteMetaCount}</p>
+                    <p class="stat-label">Absolute Meta</p>
                 </div>
-                <div style="background-color: var(--card-bg); padding: 10px; border-radius: 8px; text-align: center; border-left: 3px solid var(--favorite-color);">
-                    <p style="font-size: 1.5em; font-weight: bold;">${favoriteCount}</p>
-                    <p style="font-size: 0.7em; color: var(--subtle-text);">Deine Favoriten</p>
+                <div class="stat-card" style="border-left: 3px solid var(--favorite-color);">
+                    <p class="stat-value">${favoriteCount}</p>
+                    <p class="stat-label">Deine Favoriten</p>
                 </div>
             </div>
     `;
@@ -160,7 +191,7 @@ function renderStartHub() {
     } else {
         htmlContent += `
             <h3 class="meta-section-title">TOP 3 WAFFEN DER META</h3>
-            <div class="top-3-container" id="top-3-container" style="display: flex; flex-direction: column; gap: 15px;">
+            <div class="top-3-container" id="top-3-container">
         `;
         
         top3Weapons.forEach((weapon, index) => {
@@ -174,16 +205,16 @@ function renderStartHub() {
             ).join('');
             
             htmlContent += `
-                <div class="start-hub-weapon-card" style="background-color: var(--card-bg); border-radius: 8px; border-left: 4px solid ${tierColor}; box-shadow: 0 2px 5px rgba(0,0,0,0.2);">
+                <div class="start-hub-weapon-card">
                     
-                    <div class="start-card-header" style="display: flex; align-items: center; padding: 15px; cursor: pointer;" data-weapon-index="${index}">
-                        <span style="font-size: 1.8em; font-weight: bold; margin-right: 15px; color: var(--secondary-color);">${index + 1}.</span>
-                        <div style="flex-grow: 1;">
-                            <p style="font-size: 1.1em; font-weight: bold; color: var(--text-color);">${weapon.name}</p>
-                            <p style="font-size: 0.8em; color: var(--subtle-text);">${weapon.category} | Tier ${weapon.tier}</p>
+                    <div class="start-card-header" data-weapon-index="${index}">
+                        <span class="ranking-number" style="color: ${tierColor};">${index + 1}.</span>
+                        <div class="start-weapon-info">
+                            <p class="weapon-name">${weapon.name}</p>
+                            <p class="weapon-details">${weapon.category} | Tier ${weapon.tier}</p>
                         </div>
-                        <span style="font-size: 1.2em; font-weight: bold; color: var(--primary-color); margin-right: 15px;">${weapon.pick}</span>
-                        <button class="start-toggle-btn" style="background: none; border: none; color: var(--text-color); font-size: 1.2em; padding: 5px; cursor: pointer;">
+                        <span class="pick-rate-display">${weapon.pick}%</span>
+                        <button class="start-toggle-btn" title="Loadout anzeigen">
                             <i class="fas fa-chevron-down"></i>
                         </button>
                     </div>
@@ -202,9 +233,9 @@ function renderStartHub() {
     }
 
     htmlContent += `
-            <p style="text-align: center; margin-top: 30px; font-size: 0.9em; color: var(--subtle-text);">
+             <p class="start-tip">
                 Für eine vollständige Liste und Loadouts, wechsle zum **Meta-Tab**.
-            </p>
+             </p>
         </div>
     `;
 
@@ -220,31 +251,24 @@ function renderStartHub() {
 }
 
 
-/**
- * Rendert die komplette Meta-Liste mit Sektionen (Absolute Meta, Meta).
- */
 function renderWeapons(weapons) {
     if (!weaponList) return; 
     weaponList.innerHTML = ''; 
 
-    // Wir rendern nur Waffen, die zum aktuell aktiven Spiel gehören
     const filteredWeaponsByGame = weapons.filter(w => w.game === currentActiveGame);
 
     if (filteredWeaponsByGame.length === 0) {
-        const gameName = currentActiveGame === 'warzone' ? 'Warzone' : 'Black Ops 7';
+        const gameName = gameTitleMap[currentActiveGame] || 'Spiel';
         weaponList.innerHTML = `<p style="text-align: center; padding: 20px;">Keine ${gameName} Waffen gefunden, die den Kriterien entsprechen.</p>`;
         currentWeaponList = []; 
         return;
     }
 
-    // 1. Sortiere die Waffen zuerst nach Pick Rate (absteigend)
     filteredWeaponsByGame.sort((a, b) => parseFloat(b.pick) - parseFloat(a.pick));
 
-    // 2. Kategorien für die Meta-Sektionen
-    const absoluteMeta = filteredWeaponsByGame.filter(w => parseFloat(w.pick) >= 5.0); // >= 5%
-    const regularMeta = filteredWeaponsByGame.filter(w => parseFloat(w.pick) < 5.0); // < 5%
+    const absoluteMeta = filteredWeaponsByGame.filter(w => parseFloat(w.pick) >= 5.0);
+    const regularMeta = filteredWeaponsByGame.filter(w => parseFloat(w.pick) < 5.0);
 
-    // Hilfsfunktion, die die Überschrift und die zugehörigen Waffen-Karten rendert
     function appendWeapons(weaponArray, title) {
         if (weaponArray.length > 0) {
             const titleElement = document.createElement('h3');
@@ -254,7 +278,7 @@ function renderWeapons(weapons) {
 
             weaponArray.forEach(weapon => {
                 const isFav = isFavorite(weapon.name);
-                const favIcon = isFav ? '★' : '☆';
+                const favIcon = isFav ? '<i class="fas fa-star"></i>' : '<i class="far fa-star"></i>';
                 
                 const loadoutHtml = weapon.loadout.map(item => 
                     `<div class="loadout-item">
@@ -270,7 +294,8 @@ function renderWeapons(weapons) {
                         <h2>${weapon.name}</h2>
                         
                         <div style="display: flex; align-items: center;">
-                            <button class="toggle-loadout-btn">
+                            <span class="pick-rate-label pick-rate-inline">${weapon.pick}%</span>
+                            <button class="toggle-loadout-btn" title="Loadout anzeigen/ausblenden">
                                 <i class="fas fa-chevron-down"></i>
                             </button>
                             <button class="favorite-btn ${isFav ? 'favorited' : ''}" data-weapon-name="${weapon.name}">${favIcon}</button>
@@ -279,7 +304,6 @@ function renderWeapons(weapons) {
                     
                     <div class="info-row">
                         <span class="category-label">${weapon.category}</span>
-                        <span class="pick-rate-label">${weapon.pick} Pick Rate</span>
                     </div>
 
                     <div class="loadout-container">
@@ -310,7 +334,6 @@ function renderWeapons(weapons) {
         }
     }
 
-    // 3. Füge die Sektionen hinzu
     appendWeapons(absoluteMeta, 'ABSOLUTE META');
     appendWeapons(regularMeta, 'META');
     
@@ -321,12 +344,11 @@ function renderWeapons(weapons) {
 function renderFavorites() {
     const favoriteNames = loadFavorites();
     
-    // Zuerst nach Spiel filtern, dann nach Favoriten filtern
     const activeGameWeapons = weaponData.filter(w => w.game === currentActiveGame);
     const favorites = activeGameWeapons.filter(weapon => favoriteNames.has(weapon.name));
     
     if (favorites.length === 0) {
-        const gameName = currentActiveGame === 'warzone' ? 'Warzone' : 'Black Ops 7';
+        const gameName = gameTitleMap[currentActiveGame] || 'Spiel';
         weaponList.innerHTML = `<h2 style="text-align: center; margin-top: 50px;">Du hast noch keine ${gameName} Favoriten gespeichert.</h2>`;
         currentWeaponList = []; 
         return;
@@ -336,12 +358,12 @@ function renderFavorites() {
     
     const titleElement = document.createElement('h3');
     titleElement.className = 'meta-section-title';
-    titleElement.textContent = `DEINE FAVORITEN (${currentActiveGame.toUpperCase()})`;
+    titleElement.textContent = `DEINE FAVORITEN (${gameTitleMap[currentActiveGame].toUpperCase()})`;
     weaponList.appendChild(titleElement);
     
     favorites.forEach(weapon => {
         const isFav = isFavorite(weapon.name);
-        const favIcon = isFav ? '★' : '☆';
+        const favIcon = isFav ? '<i class="fas fa-star"></i>' : '<i class="far fa-star"></i>';
         
         const loadoutHtml = weapon.loadout.map(item => 
             `<div class="loadout-item">
@@ -357,7 +379,8 @@ function renderFavorites() {
                 <h2>${weapon.name}</h2>
                 
                 <div style="display: flex; align-items: center;">
-                    <button class="toggle-loadout-btn">
+                    <span class="pick-rate-label pick-rate-inline">${weapon.pick}%</span>
+                    <button class="toggle-loadout-btn" title="Loadout anzeigen/ausblenden">
                         <i class="fas fa-chevron-down"></i>
                     </button>
                     <button class="favorite-btn ${isFav ? 'favorited' : ''}" data-weapon-name="${weapon.name}">${favIcon}</button>
@@ -366,7 +389,6 @@ function renderFavorites() {
             
             <div class="info-row">
                 <span class="category-label">${weapon.category}</span>
-                <span class="pick-rate-label">${weapon.pick} Pick Rate</span>
             </div>
 
             <div class="loadout-container">
@@ -402,6 +424,7 @@ function renderFavorites() {
 // ===================================================
 // 5. FILTER & SUCHLOGIK
 // ===================================================
+// ... (Unverändert) ...
 
 function resetFilterDropdown() { 
     if (filterCategory) {
@@ -413,7 +436,6 @@ function resetFilterDropdown() {
 function filterAndSearch() {
     const currentActiveFilter = document.querySelector('.bottom-nav .nav-item.active')?.getAttribute('data-filter');
     
-    // NEU: Basisliste ist IMMER zuerst nach dem aktiven Spiel gefiltert
     let baseList = weaponData.filter(weapon => weapon.game === currentActiveGame);
     
     if (currentActiveFilter === 'favorites') {
@@ -446,8 +468,36 @@ function filterAndSearch() {
 
 
 // ===================================================
-// 6. NAVIGATION LOGIK
+// 6. NAVIGATION LOGIK (MAIN TABS & SUB TABS)
 // ===================================================
+// ... (updateTitleAndContent, setupBottomNav unverändert) ...
+
+function updateTitleAndContent(filter) {
+    
+    if (filter === 'start') {
+        if (appTitle) appTitle.textContent = 'Übersicht'; 
+        renderStartHub(); 
+        if (controlsArea) controlsArea.style.display = 'none';
+        if (bf6SubTabsContainer) bf6SubTabsContainer.style.display = 'none';
+    } else if (filter === 'favorites') {
+        if (appTitle) appTitle.textContent = 'Favoriten';
+        renderFavorites(); 
+        if (controlsArea) controlsArea.style.display = 'flex';
+        if (bf6SubTabsContainer) bf6SubTabsContainer.style.display = (currentMainGame === 'bf6') ? 'flex' : 'none';
+    } else if (filter === 'all') {
+        if (appTitle) appTitle.textContent = 'Meta-Ranking'; 
+        filterAndSearch(); 
+        if (controlsArea) controlsArea.style.display = 'flex';
+        if (bf6SubTabsContainer) bf6SubTabsContainer.style.display = (currentMainGame === 'bf6') ? 'flex' : 'none';
+    } else {
+        const tabName = document.querySelector('.bottom-nav .nav-item[data-filter="community"] span')?.textContent || 'Community';
+        if (appTitle) appTitle.textContent = tabName; 
+        weaponList.innerHTML = `<h2 style="text-align: center; margin-top: 50px;">Inhalt für den Tab: ${tabName}</h2>`;
+        if (controlsArea) controlsArea.style.display = 'none';
+        if (bf6SubTabsContainer) bf6SubTabsContainer.style.display = 'none';
+    }
+}
+
 
 function setupBottomNav() {
     const navButtons = document.querySelectorAll('.bottom-nav .nav-item');
@@ -461,27 +511,7 @@ function setupBottomNav() {
             const filter = button.getAttribute('data-filter');
             
             resetFilterDropdown(); 
-
-            // NEU: Titel anpassen und Inhalt rendern
-            if (filter === 'start') {
-                if (appTitle) appTitle.textContent = 'Übersicht'; // Dein Wunsch: "Übersicht"
-                renderStartHub(); 
-                document.querySelector('.controls-area').style.display = 'none';
-            } else if (filter === 'favorites') {
-                if (appTitle) appTitle.textContent = 'Favoriten'; // Dein Wunsch: "Favoriten"
-                renderFavorites(); 
-                document.querySelector('.controls-area').style.display = 'flex';
-            } else if (filter === 'all') {
-                if (appTitle) appTitle.textContent = 'Meta-Ranking'; // Dein Wunsch: "Meta-Ranking"
-                const activeGameWeapons = weaponData.filter(w => w.game === currentActiveGame);
-                renderWeapons(activeGameWeapons); 
-                document.querySelector('.controls-area').style.display = 'flex';
-            } else {
-                const tabName = button.querySelector('span').textContent;
-                if (appTitle) appTitle.textContent = tabName; 
-                weaponList.innerHTML = `<h2 style="text-align: center; margin-top: 50px;">Inhalt für den Tab: ${tabName}</h2>`;
-                document.querySelector('.controls-area').style.display = 'none';
-            }
+            updateTitleAndContent(filter);
         });
     });
 }
@@ -496,74 +526,128 @@ function setupGameTabs() {
             gameTabs.forEach(t => t.classList.remove('active'));
             tab.classList.add('active');
 
-            const gameFilter = tab.getAttribute('data-game');
-            currentActiveGame = gameFilter; 
+            const newMainGame = tab.getAttribute('data-game');
+            currentMainGame = newMainGame; // Setze den aktiven Haupt-Tab
             
-            resetFilterDropdown(); 
+            // NEU: Theme-Klasse setzen
+            updateThemeClass(newMainGame);
+
+            // BF6 Logik
+            if (newMainGame === 'bf6') {
+                currentActiveGame = 'bf6_redsec';
+                if (bf6SubTabsContainer) bf6SubTabsContainer.style.display = 'flex';
+                document.querySelectorAll('.sub-tab').forEach(t => t.classList.remove('active'));
+                document.querySelector('[data-game-mode="bf6_redsec"]').classList.add('active');
+            } else {
+                currentActiveGame = newMainGame;
+            }
             
             const currentBottomFilter = document.querySelector('.bottom-nav .nav-item.active')?.getAttribute('data-filter');
 
-            // Zeige Filter/Suche nur, wenn wir uns im Meta- oder Favoriten-Tab befinden
-            const showControls = (currentBottomFilter === 'all' || currentBottomFilter === 'favorites');
-            document.querySelector('.controls-area').style.display = showControls ? 'flex' : 'none';
-
-            // Titel-Update bei Spielwechsel (nur für Meta/Fav relevant)
-            if (currentBottomFilter === 'all') {
-                if (appTitle) appTitle.textContent = 'Meta-Ranking'; 
-            } else if (currentBottomFilter === 'favorites') {
-                if (appTitle) appTitle.textContent = 'Favoriten';
-            } else if (currentBottomFilter === 'start') {
-                if (appTitle) appTitle.textContent = 'Übersicht';
-            }
-
-
-            // Render-Funktion auf Basis des aktuellen Bottom-Nav-Filters aufrufen
-            if (currentBottomFilter === 'start') {
-                renderStartHub(); 
-            } else if (currentBottomFilter === 'all') {
-                const activeGameWeapons = weaponData.filter(w => w.game === currentActiveGame);
-                renderWeapons(activeGameWeapons); 
-            } else if (currentBottomFilter === 'favorites') {
-                renderFavorites(); 
-            } 
+            updateTitleAndContent(currentBottomFilter);
         });
     });
+    
+    // Listener für BF6 Sub-Tabs
+    if (bf6SubTabsContainer) {
+        document.querySelectorAll('.sub-tab').forEach(subTab => {
+            subTab.addEventListener('click', (e) => {
+                const newSubGameMode = e.currentTarget.getAttribute('data-game-mode');
+                if (newSubGameMode === currentActiveGame) return;
+                
+                currentActiveGame = newSubGameMode; 
+                
+                document.querySelectorAll('.sub-tab').forEach(t => t.classList.remove('active'));
+                e.currentTarget.classList.add('active');
+
+                const currentBottomFilter = document.querySelector('.bottom-nav .nav-item.active')?.getAttribute('data-filter');
+                updateTitleAndContent(currentBottomFilter);
+            });
+        });
+    }
 }
+
 
 // Stellt den initialen Zustand her (Warzone / Start Hub)
 function loadInitialWarzoneState() {
-    // 1. Setze das aktive Spiel auf Warzone
+    currentMainGame = 'warzone';
     currentActiveGame = 'warzone';
     
-    // 2. Visuelle Header-Aktivierung
+    // NEU: Theme-Klasse initial setzen
+    updateThemeClass('warzone');
+    
     const warzoneTab = document.querySelector('.app-header .game-tab[data-game="warzone"]');
     if (warzoneTab) { 
         document.querySelectorAll('.app-header .game-tab').forEach(t => t.classList.remove('active'));
         warzoneTab.classList.add('active');
     }
+    if (bf6SubTabsContainer) bf6SubTabsContainer.style.display = 'none';
 
-    // 3. Visuelle Bottom-Nav-Aktivierung (Standard ist Start-Tab)
     const startTab = document.querySelector('.bottom-nav .nav-item[data-filter="start"]');
     if (startTab) {
         document.querySelectorAll('.bottom-nav .nav-item').forEach(btn => btn.classList.remove('active'));
         startTab.classList.add('active'); 
     }
 
-    // 4. Setze den initialen Titel auf "Übersicht"
-    if (appTitle) {
-        appTitle.textContent = 'Übersicht';
-    }
-
-    // 5. Content-Rendering und Filter-Sichtbarkeit
-    const controlsArea = document.querySelector('.controls-area');
     if (controlsArea) controlsArea.style.display = 'none'; 
 
+    if (appTitle) appTitle.textContent = 'Übersicht'; 
     renderStartHub(); 
 }
 
 
 // ===================================================
-// 7. INITIALISIERUNG
+// 7. DARK / LIGHT MODE FUNKTIONALITÄT
+// ===================================================
+// ... (setupThemeToggle unverändert) ...
+function setupThemeToggle() {
+    const settingsButton = document.querySelector('.settings-button');
+    const settingsModal = document.getElementById('settings-modal');
+    if (!settingsModal || !settingsButton) return; 
+
+    const closeButton = settingsModal.querySelector('.close-button');
+    const darkModeToggle = document.getElementById('dark-mode-toggle');
+    const body = document.body;
+
+    settingsButton.addEventListener('click', () => {
+        settingsModal.style.display = 'block';
+    });
+
+    closeButton.addEventListener('click', () => {
+        settingsModal.style.display = 'none';
+    });
+    
+    window.addEventListener('click', (event) => {
+        if (event.target === settingsModal) {
+            settingsModal.style.display = 'none';
+        }
+    });
+
+    const savedTheme = localStorage.getItem('theme');
+
+    if (savedTheme === 'light') {
+        body.classList.add('light-mode');
+        darkModeToggle.checked = false; 
+    } else {
+        body.classList.remove('light-mode');
+        darkModeToggle.checked = true; 
+        if (!savedTheme) localStorage.setItem('theme', 'dark'); 
+    }
+
+    darkModeToggle.addEventListener('change', () => {
+        if (darkModeToggle.checked) {
+            body.classList.remove('light-mode');
+            localStorage.setItem('theme', 'dark');
+        } else {
+            body.classList.add('light-mode');
+            localStorage.setItem('theme', 'light');
+        }
+    });
+}
+
+
+// ===================================================
+// 8. INITIALISIERUNG
 // ===================================================
 
 function initializeApp() {
@@ -575,5 +659,4 @@ function initializeApp() {
 }
 
 
-// STARTE die App, indem die Daten geladen werden
-loadMetaWeapons();
+document.addEventListener('DOMContentLoaded', loadMetaWeapons);
