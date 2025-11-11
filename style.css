@@ -25,7 +25,7 @@
     --tier-a-color: #f39c12; /* Orange */
     --tier-b-color: #f1c40f; /* Gelb */
     --tier-c-color: #3498db; /* Blau */
-    --tier-d-color: #444;    /* Grau */
+    --tier-d-color: #444; 	/* Grau */
 }
 
 /* --- Light Mode Modifikationen --- */
@@ -788,3 +788,59 @@ input:checked + .slider:before {
 .slider.round:before {
     border-radius: 50%;
 }
+
+
+/* ========================================= */
+/* 8. UPDATE TOAST (NEU) */
+/* ========================================= */
+.update-toast {
+    /* Feste Position, leicht über der Bottom-Nav */
+    position: fixed;
+    bottom: 80px; 
+    left: 50%;
+    /* Zentrieren */
+    transform: translateX(-50%); 
+    
+    /* Design */
+    background-color: var(--dynamic-primary-color, var(--primary-color-default)); /* Dynamische Farbe (z.B. Warzone-Grün) */
+    color: var(--text-color);
+    padding: 10px 15px;
+    border-radius: 8px;
+    box-shadow: var(--box-shadow);
+    z-index: 10000; /* Muss über alles andere */
+    
+    /* Layout */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    
+    /* Animation (Standard: versteckt) */
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
+}
+
+.update-toast.show {
+    opacity: 1;
+    visibility: visible;
+    /* Bewegt sich leicht nach oben, wenn es erscheint */
+    transform: translateX(-50%) translateY(-10px); 
+}
+
+#reload-button {
+    background-color: var(--bg-color); /* Dunkler Hintergrund */
+    color: var(--dynamic-primary-color, var(--primary-color-default)); /* Grüner Text */
+    border: 1px solid var(--dynamic-primary-color, var(--primary-color-default));
+    padding: 5px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.2s;
+    font-size: 0.9em;
+}
+
+#reload-button:hover {
+    background-color: var(--border-color); /* Leichte Graufärbung beim Hover */
+}
+
