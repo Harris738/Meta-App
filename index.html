@@ -14,8 +14,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
 </head>
-<body>
-    <div class="app-container">
+<body class="game-warzone-active"> <div class="app-container">
         
         <header class="header">
             <h1 id="app-title">Laden...</h1>
@@ -57,7 +56,7 @@
 
         <main>
             <div id="weapon-list">
-                </div>
+            </div>
         </main>
 
         <nav class="bottom-nav">
@@ -99,8 +98,24 @@
     </div>
     
     <script src="script.js"></script>
+    
+    <script>
+    // Überprüfe, ob der Browser Service Workers unterstützt
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./service-worker.js')
+          .then(registration => {
+            console.log('Service Worker erfolgreich registriert:', registration.scope);
+          })
+          .catch(error => {
+            console.error('Service Worker Registrierung fehlgeschlagen:', error);
+          });
+      });
+    }
+    </script>
 </body>
 </html>
+
 
 
 
