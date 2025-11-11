@@ -2,7 +2,7 @@
     "name": "Warzone Meta Guide",
     "short_name": "WZ Meta",
     "description": "Die aktuellsten Meta Loadouts für Warzone.",
-    "start_url": "/https://harris738.github.io/Meta-App/",
+    "start_url": ".",
     "display": "standalone",
     "background_color": "#121212",
     "theme_color": "#FF4500",
@@ -19,3 +19,4 @@
         }
     ]
 }
+
