@@ -91,66 +91,22 @@
                 </label>
             </div>
             <div class="setting-item">
-                <span>Version</span>
-                <span>1.0.1</span>
+                <span>App Version:</span>
+                <span id="app-version-display">Wird geladen...</span>
             </div>
         </div>
     </div>
     
     <div id="update-toast" class="update-toast">
-        <span>Ein App-Update ist verfügbar!</span>
+        <span id="toast-message">Ein App-Update ist verfügbar!</span>
         <button id="reload-button">Neu laden</button>
     </div>
 
     <script src="script.js"></script>
     
-    <script>
-    if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-            navigator.serviceWorker.register('./service-worker.js')
-                .then(registration => {
-                    console.log('Service Worker erfolgreich registriert:', registration.scope);
-
-                    // --- Update-Logik ---
-                    let newWorker;
-                    const updateToast = document.getElementById('update-toast');
-                    const reloadButton = document.getElementById('reload-button');
-
-                    // Überwacht, ob ein neuer Worker gefunden wird
-                    registration.addEventListener('updatefound', () => {
-                        newWorker = registration.installing;
-                        newWorker.addEventListener('statechange', () => {
-                            // Wenn der neue Worker installiert, aber noch nicht aktiv ist
-                            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                                // Zeige den Update-Toast an
-                                updateToast.classList.add('show');
-                            }
-                        });
-                    });
-
-                    // Wenn der Benutzer auf "Neu laden" klickt
-                    reloadButton.addEventListener('click', () => {
-                        if (newWorker) {
-                            // Schicke Nachricht an den Service Worker, um das Warten zu überspringen
-                            newWorker.postMessage({ type: 'SKIP_WAITING' });
-                        }
-                        updateToast.classList.remove('show');
-                    });
-
-                    // Stelle sicher, dass die Seite nach dem SKIP_WAITING-Befehl neu lädt
-                    navigator.serviceWorker.addEventListener('controllerchange', () => {
-                        window.location.reload();
-                    });
-
-                })
-                .catch(error => {
-                    console.error('Service Worker Registrierung fehlgeschlagen:', error);
-                });
-        });
-    }
-    </script>
-</body>
+    </body>
 </html>
+
 
 
 
