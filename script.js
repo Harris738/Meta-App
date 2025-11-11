@@ -8,7 +8,7 @@ let currentWeaponList = [];
 let currentMainGame = 'warzone'; // warzone, bo7, bf6 (wird für Tab-Farbe genutzt)
 let currentActiveGame = 'warzone'; // warzone, bo7, bf6_redsec, bf6_multiplayer (wird zum Filtern der Daten genutzt)
 
-const CURRENT_APP_VERSION = "1.0.1"; // NEU: Versionsnummer der App (muss mit HTML übereinstimmen)
+const CURRENT_APP_VERSION = "1.0.2"; // NEU: Versionsnummer der App (muss mit HTML übereinstimmen)
 
 const weaponList = document.getElementById('weapon-list');
 const searchInput = document.getElementById('search-input');
@@ -706,4 +706,5 @@ function showUpdateToast(newVersion) {
 
 
 document.addEventListener('DOMContentLoaded', loadMetaWeapons);
+
 
