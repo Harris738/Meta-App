@@ -1,282 +1,285 @@
-[
-    {
-        "name": "KILO 141",
-        "pick": "18.7",
-        "category": "Lange Reichweite",
-        "type": "Sturmgewehr",
-        "tier": "S-Tier",
-        "game": "warzone", 
-        "loadout": [
-            { "slot": "Mündung", "name": "Monolithic Suppressor" },
-            { "slot": "Lauf", "name": "Reinforced Barrel" },
-            { "slot": "Visier", "name": "Willis 3x" },
-            { "slot": "Unterlauf", "name": "Vertical Foregrip" },
-            { "slot": "Magazin", "name": "Extended Mag II (60 Schuss)" }
-        ]
-    },
-    {
-        "name": "MERRICK 556",
-        "pick": "8.2",
-        "category": "Lange Reichweite",
-        "type": "Sturmgewehr",
-        "tier": "S-Tier",
-        "game": "warzone", 
-        "loadout": [
-            { "slot": "Mündung", "name": "VT-7 Spiritfire Suppressor" },
-            { "slot": "Lauf", "name": "Merrick Precision Barrel" },
-            { "slot": "Visier", "name": "Corio Eagleseye 2.5x" },
-            { "slot": "Unterlauf", "name": "Bruen Heavy Support Grip" },
-            { "slot": "Magazin", "name": "45 Round Mag" }
-        ]
-    },
-    {
-        "name": "DRESDEN 9MM",
-        "pick": "6.3",
-        "category": "Kurze Reichweite",
-        "type": "Maschinenpistole",
-        "tier": "S-Tier",
-        "game": "warzone", 
-        "loadout": [
-            { "slot": "Lauf", "name": "Long Barrel" },
-            { "slot": "Mündung", "name": "Compensator" },
-            { "slot": "Unterlauf", "name": "Ranger Foregrip" },
-            { "slot": "Magazin", "name": "Extended Mag II" },
-            { "slot": "Schaft", "name": "Balanced Stock" }
-        ]
-    },
-    {
-        "name": "C9",
-        "pick": "14.3",
-        "category": "Kurze Reichweite",
-        "type": "Maschinenpistole",
-        "tier": "S-Tier",
-        "game": "warzone", 
-        "loadout": [
-            { "slot": "Lauf", "name": "Long Barrel" },
-            { "slot": "Unterlauf", "name": "Vertical Foregrip" },
-            { "slot": "Magazin", "name": "Extended Mag II" },
-            { "slot": "Griff", "name": "Ergonomic Grip" },
-            { "slot": "Schaft", "name": "Balanced Stock" }
-        ]
-    },
-    {
-        "name": "HDR",
-        "pick": "5.4",
-        "category": "Sniper",
-        "type": "Scharfschützengewehr",
-        "tier": "S-Tier",
-        "game": "warzone", 
-        "loadout": [
-            { "slot": "Mündung", "name": "Monolithic Suppressor" },
-            { "slot": "Lauf", "name": "Gain-Twist Barrel" },
-            { "slot": "Visier", "name": "Thermal Scope" },
-            { "slot": "Griff", "name": "Quickdraw Grip" },
-            { "slot": "Munition", "name": "108mm Overpressured" }
-        ]
-    },
-    {
-        "name": "GPR 91",
-        "pick": "5.7",
-        "category": "Sniper Support",
-        "type": "Sturmgewehr",
-        "tier": "S-Tier",
-        "game": "warzone", 
-        "loadout": [
-            { "slot": "Visier", "name": "Kepler Microflex" },
-            { "slot": "Mündung", "name": "Compensator" },
-            { "slot": "Lauf", "name": "Reinforced Barrel" },
-            { "slot": "Unterlauf", "name": "G-Grip" },
-            { "slot": "Magazin", "name": "Extended Mag I" }
-        ]
-    },
-    {
-        "name": "SWAT 5.56",
-        "pick": "0.5",
-        "category": "Lange Reichweite",
-        "type": "DMR",
-        "tier": "A-Tier",
-        "game": "warzone", 
-        "loadout": [
-            { "slot": "Mündung", "name": "Monolithic Suppressor" },
-            { "slot": "Lauf", "name": "Reinforced Heavy Barrel" },
-            { "slot": "Visier", "name": "VLK 3.0x Optic" },
-            { "slot": "Unterlauf", "name": "Commando Foregrip" },
-            { "slot": "Feuermod", "name": "Grau Conversion Kit" }
-        ]
-    },
-    {
-        "name": "JACKAL PDW",
-        "pick": "2.9",
-        "category": "Kurze Reichweite",
-        "type": "Maschinenpistole",
-        "tier": "A-Tier",
-        "game": "warzone", 
-        "loadout": [
-            { "slot": "Lauf", "name": "Long Barrel" },
-            { "slot": "Mündung", "name": "Compensator" },
-            { "slot": "Unterlauf", "name": "Ranger Foregrip" },
-            { "slot": "Magazin", "name": "Extended Mag II" },
-            { "slot": "Griff", "name": "Quickdraw Grip" }
-        ]
-    },
-    {
-        "name": "CR-56 AMAX",
-        "pick": "2.4",
-        "category": "Lange Reichweite",
-        "type": "Sturmgewehr",
-        "tier": "A-Tier",
-        "game": "warzone", 
-        "loadout": [
-            { "slot": "Mündung", "name": "Monolithic Suppressor" },
-            { "slot": "Lauf", "name": "Z-Long Barrel" },
-            { "slot": "Visier", "name": "VLK 3.0x Optic" },
-            { "slot": "Unterlauf", "name": "Commando Foregrip" },
-            { "slot": "Magazin", "name": "45 Round Mag" }
-        ]
-    },
-    {
-        "name": "XM4",
-        "pick": "1.7",
-        "category": "Lange Reichweite",
-        "type": "Sturmgewehr",
-        "tier": "B-Tier",
-        "game": "warzone", 
-        "loadout": [
-            { "slot": "Mündung", "name": "Agency Suppressor" },
-            { "slot": "Lauf", "name": "13.5\" Cavalry Barrel" },
-            { "slot": "Visier", "name": "Axial Arms 3x" },
-            { "slot": "Unterlauf", "name": "Field Agent Foregrip" },
-            { "slot": "Magazin", "name": "60 Rnd" }
-        ]
-    },
-    {
-        "name": "PPSh-41",
-        "pick": "0.5",
-        "category": "Kurze Reichweite",
-        "type": "Maschinenpistole",
-        "tier": "B-Tier",
-        "game": "warzone", 
-        "loadout": [
-            { "slot": "Mündung", "name": "Compensator" },
-            { "slot": "Lauf", "name": "Kovalevskaya 230mm" },
-            { "slot": "Magazin", "name": "71 Rnd Drum" },
-            { "slot": "Griff", "name": "Ergonomic Grip" },
-            { "slot": "Schaft", "name": "No Stock" }
-        ]
-    },
-    {   
-        "name": "LC10",
-        "pick": "1.2",
-        "category": "Kurze Reichweite",
-        "type": "Maschinenpistole",
-        "tier": "B-Tier",
-        "game": "warzone", 
-        "loadout": [
-            { "slot": "Mündung", "name": "Agency Suppressor" },
-            { "slot": "Lauf", "name": "13.9\" Reinforced Barrel" },
-            { "slot": "Unterlauf", "name": "Field Agent Foregrip" },
-            { "slot": "Magazin", "name": "50 Rnd" },
-            { "slot": "Griff", "name": "SASR Jungle Grip" }
-        ]
-    },
-    {
-        "name": "DRS-IAR",
-        "category": "Lange Reichweite",
-        "game": "bf6_redsec",
-        "tier": "S-Tier",
-        "type": "LMG",
-        "pick": "24.2",
-        "loadout": [
-            {"slot": "Mündung","name": "Standard-Schalldämpfer"},
-            {"slot": "Lauf","name": "20 SDM-R"},
-            {"slot": "Visier","name": "Baker 3.00X"},
-            {"slot": "Magazin","name": "40-Schuss-Magazin"},
-            {"slot": "Unterlauf","name": "6H64 Vertikal"},
-            {"slot": "Munition","name": "VMG"}
-        ]
-    },
-    {
-        "name": "KTS100 MK8",
-        "category": "Lange Reichweite",
-        "game": "bf6_redsec",
-        "tier": "S-Tier",
-        "type": "LMG",
-        "pick": "11.4",
-        "loadout": [
-            {"slot": "Mündung","name": "Standard-Schalldämpfer"},
-            {"slot": "Lauf","name": "508MM MK8"},
-            {"slot": "Visier","name": "GRIM 1.50x"},
-            {"slot": "Magazin","name": "60-Schuss-Magazin"},
-            {"slot": "Unterlauf","name": "KUZ,Gekippt"},
-            {"slot": "Munition","name": "VMG"}
-        ]
-    },
-    {
-        "name": "M2010 ESR",
-        "category": "Scharfschützengewehr",
-        "game": "bf6_redsec",
-        "tier": "S-Tier",
-        "type": "Sniper",
-        "pick": "8.3",
-        "loadout": [
-            {"slot": "Mündung","name": "Standard-Schalldämpfer"},
-            {"slot": "Lauf","name": "26 Karbon"},
-            {"slot": "Visier","name": "NFX 8.00X"},
-            {"slot": "Magazin","name": "5-Schuss-Magazin"},
-            {"slot": "Unterlauf","name": "Angewinkelt,Schmal"},
-            {"slot": "Munition","name": "Wettkampf"},
-            {"slot": "Linkes Zubehör","name": "Entfernungsmessgerät"},
-            {"slot": "Optikzubehör","name": "Antireflexbeschichtung"}
-        ]
-    },
-    {
-        "name": "KORD 6P67",
-        "category": "Lange Reichweite",
-        "game": "bf6_redsec",
-        "tier": "S-Tier",
-        "type": "Sturmgewehr",
-        "pick": "13.8",
-        "loadout": [
-            {"slot": "Mündung","name": "Standard-Schalldämpfer"},
-            {"slot": "Lauf","name": "415MM Prototyp"},
-            {"slot": "Visier","name": "Baker 3,00X"},
-            {"slot": "Magazin","name": "40-Schuss-Magazin"},
-            {"slot": "Unterlauf","name": "6H64 Vertikal"},
-            {"slot": "Munition","name": "VMG"}
-        ]
-    },
-    {
-        "name": "SGX",
-        "category": "Kurze Reichweite",
-        "game": "bf6_redsec",
-        "tier": "S-Tier",
-        "type": "Maschinenpistole",
-        "pick": "11.3",
-        "loadout": [
-            {"slot": "Mündung","name": "Nahkampf-Schalldämpfer"},
-            {"slot": "Lauf","name": "8 Verlängert"},
-            {"slot": "Visier","name": "Offene Visierung"},
-            {"slot": "Magazin","name": "41-Schuss-Magazin"},
-            {"slot": "Unterlauf","name": "KUZ,Gekippt"},
-            {"slot": "Munition","name": "VMG"}
-        ]
-    },
-    {
-        "name": "USG-90",
-        "category": "Kurze Reichweite",
-        "game": "bf6_redsec",
-        "tier": "A-Tier",
-        "type": "Maschinenpistole",
-        "pick": "4,9",
-        "loadout": [
-            {"slot": "Mündung","name": "Nahkampf-Schalldämpfer"},
-            {"slot": "Lauf","name": "407MM CIV-S"},
-            {"slot": "Visier","name": "RO-S1.25X"},
-            {"slot": "Magazin","name": "50-Schuss-Magazin"},
-            {"slot": "Rechtes Zubehör","name": "120 MW Blau"},
-            {"slot": "Munition","name": "Polymerhülse"},
-            {"slot": "Ergonomie","name": "Verbesserter Magazinfang"}
-        ]
-    }
+{
+    "appVersion": "1.0.1",
+    "weapons": [
+        {
+            "name": "KILO 141",
+            "pick": "18.7",
+            "category": "Lange Reichweite",
+            "type": "Sturmgewehr",
+            "tier": "S-Tier",
+            "game": "warzone", 
+            "loadout": [
+                { "slot": "Mündung", "name": "Monolithic Suppressor" },
+                { "slot": "Lauf", "name": "Reinforced Barrel" },
+                { "slot": "Visier", "name": "Willis 3x" },
+                { "slot": "Unterlauf", "name": "Vertical Foregrip" },
+                { "slot": "Magazin", "name": "Extended Mag II (60 Schuss)" }
+            ]
+        },
+        {
+            "name": "MERRICK 556",
+            "pick": "8.2",
+            "category": "Lange Reichweite",
+            "type": "Sturmgewehr",
+            "tier": "S-Tier",
+            "game": "warzone", 
+            "loadout": [
+                { "slot": "Mündung", "name": "VT-7 Spiritfire Suppressor" },
+                { "slot": "Lauf", "name": "Merrick Precision Barrel" },
+                { "slot": "Visier", "name": "Corio Eagleseye 2.5x" },
+                { "slot": "Unterlauf", "name": "Bruen Heavy Support Grip" },
+                { "slot": "Magazin", "name": "45 Round Mag" }
+            ]
+        },
+        {
+            "name": "DRESDEN 9MM",
+            "pick": "6.3",
+            "category": "Kurze Reichweite",
+            "type": "Maschinenpistole",
+            "tier": "S-Tier",
+            "game": "warzone", 
+            "loadout": [
+                { "slot": "Lauf", "name": "Long Barrel" },
+                { "slot": "Mündung", "name": "Compensator" },
+                { "slot": "Unterlauf", "name": "Ranger Foregrip" },
+                { "slot": "Magazin", "name": "Extended Mag II" },
+                { "slot": "Schaft", "name": "Balanced Stock" }
+            ]
+        },
+        {
+            "name": "C9",
+            "pick": "14.3",
+            "category": "Kurze Reichweite",
+            "type": "Maschinenpistole",
+            "tier": "S-Tier",
+            "game": "warzone", 
+            "loadout": [
+                { "slot": "Lauf", "name": "Long Barrel" },
+                { "slot": "Unterlauf", "name": "Vertical Foregrip" },
+                { "slot": "Magazin", "name": "Extended Mag II" },
+                { "slot": "Griff", "name": "Ergonomic Grip" },
+                { "slot": "Schaft", "name": "Balanced Stock" }
+            ]
+        },
+        {
+            "name": "HDR",
+            "pick": "5.4",
+            "category": "Sniper",
+            "type": "Scharfschützengewehr",
+            "tier": "S-Tier",
+            "game": "warzone", 
+            "loadout": [
+                { "slot": "Mündung", "name": "Monolithic Suppressor" },
+                { "slot": "Lauf", "name": "Gain-Twist Barrel" },
+                { "slot": "Visier", "name": "Thermal Scope" },
+                { "slot": "Griff", "name": "Quickdraw Grip" },
+                { "slot": "Munition", "name": "108mm Overpressured" }
+            ]
+        },
+        {
+            "name": "GPR 91",
+            "pick": "5.7",
+            "category": "Sniper Support",
+            "type": "Sturmgewehr",
+            "tier": "S-Tier",
+            "game": "warzone", 
+            "loadout": [
+                { "slot": "Visier", "name": "Kepler Microflex" },
+                { "slot": "Mündung", "name": "Compensator" },
+                { "slot": "Lauf", "name": "Reinforced Barrel" },
+                { "slot": "Unterlauf", "name": "G-Grip" },
+                { "slot": "Magazin", "name": "Extended Mag I" }
+            ]
+        },
+        {
+            "name": "SWAT 5.56",
+            "pick": "0.5",
+            "category": "Lange Reichweite",
+            "type": "DMR",
+            "tier": "A-Tier",
+            "game": "warzone", 
+            "loadout": [
+                { "slot": "Mündung", "name": "Monolithic Suppressor" },
+                { "slot": "Lauf", "name": "Reinforced Heavy Barrel" },
+                { "slot": "Visier", "name": "VLK 3.0x Optic" },
+                { "slot": "Unterlauf", "name": "Commando Foregrip" },
+                { "slot": "Feuermod", "name": "Grau Conversion Kit" }
+            ]
+        },
+        {
+            "name": "JACKAL PDW",
+            "pick": "2.9",
+            "category": "Kurze Reichweite",
+            "type": "Maschinenpistole",
+            "tier": "A-Tier",
+            "game": "warzone", 
+            "loadout": [
+                { "slot": "Lauf", "name": "Long Barrel" },
+                { "slot": "Mündung", "name": "Compensator" },
+                { "slot": "Unterlauf", "name": "Ranger Foregrip" },
+                { "slot": "Magazin", "name": "Extended Mag II" },
+                { "slot": "Griff", "name": "Quickdraw Grip" }
+            ]
+        },
+        {
+            "name": "CR-56 AMAX",
+            "pick": "2.4",
+            "category": "Lange Reichweite",
+            "type": "Sturmgewehr",
+            "tier": "A-Tier",
+            "game": "warzone", 
+            "loadout": [
+                { "slot": "Mündung", "name": "Monolithic Suppressor" },
+                { "slot": "Lauf", "name": "Z-Long Barrel" },
+                { "slot": "Visier", "name": "VLK 3.0x Optic" },
+                { "slot": "Unterlauf", "name": "Commando Foregrip" },
+                { "slot": "Magazin", "name": "45 Round Mag" }
+            ]
+        },
+        {
+            "name": "XM4",
+            "pick": "1.7",
+            "category": "Lange Reichweite",
+            "type": "Sturmgewehr",
+            "tier": "B-Tier",
+            "game": "warzone", 
+            "loadout": [
+                { "slot": "Mündung", "name": "Agency Suppressor" },
+                { "slot": "Lauf", "name": "13.5\" Cavalry Barrel" },
+                { "slot": "Visier", "name": "Axial Arms 3x" },
+                { "slot": "Unterlauf", "name": "Field Agent Foregrip" },
+                { "slot": "Magazin", "name": "60 Rnd" }
+            ]
+        },
+        {
+            "name": "PPSh-41",
+            "pick": "0.5",
+            "category": "Kurze Reichweite",
+            "type": "Maschinenpistole",
+            "tier": "B-Tier",
+            "game": "warzone", 
+            "loadout": [
+                { "slot": "Mündung", "name": "Compensator" },
+                { "slot": "Lauf", "name": "Kovalevskaya 230mm" },
+                { "slot": "Magazin", "name": "71 Rnd Drum" },
+                { "slot": "Griff", "name": "Ergonomic Grip" },
+                { "slot": "Schaft", "name": "No Stock" }
+            ]
+        },
+        { 
+            "name": "LC10",
+            "pick": "1.2",
+            "category": "Kurze Reichweite",
+            "type": "Maschinenpistole",
+            "tier": "B-Tier",
+            "game": "warzone", 
+            "loadout": [
+                { "slot": "Mündung", "name": "Agency Suppressor" },
+                { "slot": "Lauf", "name": "13.9\" Reinforced Barrel" },
+                { "slot": "Unterlauf", "name": "Field Agent Foregrip" },
+                { "slot": "Magazin", "name": "50 Rnd" },
+                { "slot": "Griff", "name": "SASR Jungle Grip" }
+            ]
+        },
+        {
+            "name": "DRS-IAR",
+            "category": "Lange Reichweite",
+            "game": "bf6_redsec",
+            "tier": "S-Tier",
+            "type": "LMG",
+            "pick": "24.2",
+            "loadout": [
+                {"slot": "Mündung","name": "Standard-Schalldämpfer"},
+                {"slot": "Lauf","name": "20 SDM-R"},
+                {"slot": "Visier","name": "Baker 3.00X"},
+                {"slot": "Magazin","name": "40-Schuss-Magazin"},
+                {"slot": "Unterlauf","name": "6H64 Vertikal"},
+                {"slot": "Munition","name": "VMG"}
+            ]
+        },
+        {
+            "name": "KTS100 MK8",
+            "category": "Lange Reichweite",
+            "game": "bf6_redsec",
+            "tier": "S-Tier",
+            "type": "LMG",
+            "pick": "11.4",
+            "loadout": [
+                {"slot": "Mündung","name": "Standard-Schalldämpfer"},
+                {"slot": "Lauf","name": "508MM MK8"},
+                {"slot": "Visier","name": "GRIM 1.50x"},
+                {"slot": "Magazin","name": "60-Schuss-Magazin"},
+                {"slot": "Unterlauf","name": "KUZ,Gekippt"},
+                {"slot": "Munition","name": "VMG"}
+            ]
+        },
+        {
+            "name": "M2010 ESR",
+            "category": "Scharfschützengewehr",
+            "game": "bf6_redsec",
+            "tier": "S-Tier",
+            "type": "Sniper",
+            "pick": "8.3",
+            "loadout": [
+                {"slot": "Mündung","name": "Standard-Schalldämpfer"},
+                {"slot": "Lauf","name": "26 Karbon"},
+                {"slot": "Visier","name": "NFX 8.00X"},
+                {"slot": "Magazin","name": "5-Schuss-Magazin"},
+                {"slot": "Unterlauf","name": "Angewinkelt,Schmal"},
+                {"slot": "Munition","name": "Wettkampf"},
+                {"slot": "Linkes Zubehör","name": "Entfernungsmessgerät"},
+                {"slot": "Optikzubehör","name": "Antireflexbeschichtung"}
+            ]
+        },
+        {
+            "name": "KORD 6P67",
+            "category": "Lange Reichweite",
+            "game": "bf6_redsec",
+            "tier": "S-Tier",
+            "type": "Sturmgewehr",
+            "pick": "13.8",
+            "loadout": [
+                {"slot": "Mündung","name": "Standard-Schalldämpfer"},
+                {"slot": "Lauf","name": "415MM Prototyp"},
+                {"slot": "Visier","name": "Baker 3,00X"},
+                {"slot": "Magazin","name": "40-Schuss-Magazin"},
+                {"slot": "Unterlauf","name": "6H64 Vertikal"},
+                {"slot": "Munition","name": "VMG"}
+            ]
+        },
+        {
+            "name": "SGX",
+            "category": "Kurze Reichweite",
+            "game": "bf6_redsec",
+            "tier": "S-Tier",
+            "type": "Maschinenpistole",
+            "pick": "11.3",
+            "loadout": [
+                {"slot": "Mündung","name": "Nahkampf-Schalldämpfer"},
+                {"slot": "Lauf","name": "8 Verlängert"},
+                {"slot": "Visier","name": "Offene Visierung"},
+                {"slot": "Magazin","name": "41-Schuss-Magazin"},
+                {"slot": "Unterlauf","name": "KUZ,Gekippt"},
+                {"slot": "Munition","name": "VMG"}
+            ]
+        },
+        {
+            "name": "USG-90",
+            "category": "Kurze Reichweite",
+            "game": "bf6_redsec",
+            "tier": "A-Tier",
+            "type": "Maschinenpistole",
+            "pick": "4,9",
+            "loadout": [
+                {"slot": "Mündung","name": "Nahkampf-Schalldämpfer"},
+                {"slot": "Lauf","name": "407MM CIV-S"},
+                {"slot": "Visier","name": "RO-S1.25X"},
+                {"slot": "Magazin","name": "50-Schuss-Magazin"},
+                {"slot": "Rechtes Zubehör","name": "120 MW Blau"},
+                {"slot": "Munition","name": "Polymerhülse"},
+                {"slot": "Ergonomie","name": "Verbesserter Magazinfang"}
+            ]
+        }
+    ]
+}
 
-]
