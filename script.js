@@ -7,10 +7,9 @@ let currentWeaponList = [];
 let currentMainGame = 'warzone'; 
 let currentActiveGame = 'warzone'; 
 
-const CURRENT_APP_VERSION = "1.0.9"; // ✅ KORREKTUR 1: Versionsnummer der App auf 1.0.2 erhöht
+const CURRENT_APP_VERSION = "1.1.0"; // ✅ AKTUELLE BASISVERSION FÜR KONTROLLE
 
-// NEU: Globale Variable für den Service Worker, der gerade installiert wird
-let newWorker; // ✅ KORREKTUR 2: Hinzugefügt
+let newWorker; // Globale Variable für den Service Worker
 
 const weaponList = document.getElementById('weapon-list');
 const searchInput = document.getElementById('search-input');
@@ -36,7 +35,6 @@ const gameTitleMap = {
 
 /**
  * Aktualisiert die Klasse auf dem Body-Tag, um spielspezifisches Styling anzuwenden.
- * @param {string} gameName - Der Name des aktiven Hauptspiels ('warzone', 'bo7', 'bf6').
  */
 function updateThemeClass(gameName) {
     const body = document.body;
@@ -108,7 +106,7 @@ async function loadMetaWeapons() {
         
         const data = await response.json(); 
         
-        // NEU: Versions-Check ausführen
+        // Versions-Check ausführen
         checkAppVersion(data.appVersion);
         
         weaponData = data.weapons || []; // Speichere nur die Waffendaten
@@ -564,7 +562,7 @@ function setupGameTabs() {
                 currentActiveGame = newSubGameMode; 
                 
                 document.querySelectorAll('.sub-tab').forEach(t => t.classList.remove('active'));
-                e.currentTarget.classList.add('active');
+                document.querySelector(`.sub-tab[data-game-mode="${newSubGameMode}"]`).classList.add('active');
 
                 const currentBottomFilter = document.querySelector('.bottom-nav .nav-item.active')?.getAttribute('data-filter');
                 updateTitleAndContent(currentBottomFilter);
@@ -616,7 +614,11 @@ function setupThemeToggle() {
 
     settingsButton.addEventListener('click', () => {
         // Versionsnummer im Modal setzen
-        settingsModal.querySelector('#app-version-display').textContent = `App Version: ${CURRENT_APP_VERSION}`;
+        const versionDisplay = settingsModal.querySelector('#app-version-display');
+        if (versionDisplay) { // Sicherheitsprüfung nach HTML-Fix
+            versionDisplay.textContent = `App Version: ${CURRENT_APP_VERSION}`;
+        }
+        
         settingsModal.style.display = 'block';
     });
 
@@ -702,20 +704,22 @@ function showUpdateToast(newVersion) {
     if (reloadButton) {
         // Sicherstellen, dass keine alten Listener existieren
         const newReloadHandler = () => {
-            // ✅ KORREKTUR 4: Befehl an den wartenden Service Worker senden
+            // Befehl an den wartenden Service Worker senden
             if (newWorker) {
                 console.log("Sende 'skipWaiting' an den neuen Service Worker.");
                 newWorker.postMessage({ action: 'skipWaiting' });
             }
             
-            // ✅ KORREKTUR 4: Danach die Seite neu laden.
-            window.location.reload(); 
+            // ✅ KORREKTUR: Toast sofort ausblenden, damit er bei erfolgreichem Reload verschwindet.
+            updateToast.classList.remove('show');
+            
+            // WICHTIG: KEIN window.location.reload() HIER! Das macht der controllerchange-Listener.
         };
 
         // Alten EventListener entfernen (falls vorhanden) und den neuen hinzufügen
         reloadButton.removeEventListener('click', reloadButton.oldHandler);
         reloadButton.addEventListener('click', newReloadHandler);
-        reloadButton.oldHandler = newReloadHandler; // Speichere den Handler zum späteren Entfernen
+        reloadButton.oldHandler = newReloadHandler; 
     }
 }
 
@@ -723,12 +727,17 @@ function showUpdateToast(newVersion) {
 // ===================================================
 // 10. Service Worker Registrierung & Update-Handler
 // ===================================================
-// ✅ KORREKTUR 3: Hinzufügen der Service Worker Logik zur Speicherung des newWorker
 
 if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('./service-worker.js')
         .then(reg => {
             console.log('Service Worker erfolgreich registriert:', reg);
+
+            // FIX: Füge den controllerchange Listener hier hinzu!
+            navigator.serviceWorker.addEventListener('controllerchange', () => {
+                // Wenn der Controller wechselt (nach skipWaiting), lade neu.
+                window.location.reload();
+            });
 
             // WICHTIG: Wenn ein Update gefunden wird (neue .js oder .html gecacht), den Worker speichern
             reg.onupdatefound = () => {
@@ -755,6 +764,7 @@ if ('serviceWorker' in navigator) {
 
 
 document.addEventListener('DOMContentLoaded', loadMetaWeapons);
+
 
 
 
