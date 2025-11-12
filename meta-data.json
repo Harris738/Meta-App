@@ -1,5 +1,5 @@
 {
-    "appVersion": "1.1.2",
+    "appVersion": "1.0.0",
     "weapons": [
         {
             "name": "KILO 141",
@@ -365,6 +365,7 @@
 
     ]
 }
+
 
 
 
