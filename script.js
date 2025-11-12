@@ -7,7 +7,7 @@ let currentWeaponList = [];
 let currentMainGame = 'warzone'; 
 let currentActiveGame = 'warzone'; 
 
-const CURRENT_APP_VERSION = "1.0.0"; // ✅ AKTUELLE BASISVERSION FÜR KONTROLLE
+const CURRENT_APP_VERSION = "1.0.1"; // ✅ AKTUELLE BASISVERSION FÜR KONTROLLE
 
 let newWorker; // Globale Variable für den Service Worker
 
@@ -778,6 +778,7 @@ if ('serviceWorker' in navigator) {
 
 
 document.addEventListener('DOMContentLoaded', loadMetaWeapons);
+
 
 
 
