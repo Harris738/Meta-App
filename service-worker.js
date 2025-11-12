@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 // Service Worker Version - MUSS BEI JEDER ÄNDERUNG ERHÖHT WERDEN!
 const CACHE_NAME = 'meta-app-cache-v1.0.3';
 const DATA_CACHE_NAME = 'meta-data-cache-v1';
