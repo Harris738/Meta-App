@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="de">
 <head>
@@ -106,3 +107,123 @@
     
 </body>
 </html>
+=======
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Meta Hub App</title>
+    
+    <link rel="stylesheet" href="style.css"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/png" href="./images/icon-192x192.png">
+    <link rel="apple-touch-icon" href="./images/icon-192x192.png"> 
+    <meta name="mobile-web-app-capable" content="yes">
+</head>
+<body class="game-warzone-active"> 
+    <div class="app-container">
+        
+        <header class="header">
+            <h1 id="app-title">Laden...</h1>
+            <button class="settings-button" aria-label="Einstellungen öffnen">
+                <i class="fas fa-cog"></i>
+            </button>
+        </header>
+
+        <div class="game-tabs app-header">
+            <button class="game-tab active" data-game="warzone">WARZONE</button>
+            <button class="game-tab" data-game="bo7">BLACK OPS 7</button>
+            <button class="game-tab" data-game="bf6">BF 6</button>
+        </div>
+
+        <div class="controls-area">
+            <div class="search-container">
+                <input type="text" id="search-input" placeholder="Waffe, Aufsatz oder Tier suchen...">
+                <i class="fas fa-search search-icon"></i>
+            </div>
+            <div class="dropdown-container">
+                <select id="filter-category" class="category-dropdown">
+                    <option value="all">Alle Kategorien</option>
+                    <option value="Sturmgewehr">Sturmgewehr</option>
+                    <option value="MP">MP</option>
+                    <option value="LMG">LMG</option>
+                    <option value="Scharfschützengewehr">Scharfschützengewehr</option>
+                    <option value="Taktikgewehr">Taktikgewehr</option>
+                    <option value="Nahkampf">Nahkampf</option>
+                    <option value="Pistole">Pistole</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="sub-tabs" id="bf6-sub-tabs" style="display: none;">
+            <button class="sub-tab active" data-game-mode="bf6_redsec">RedSec</button>
+            <button class="sub-tab" data-game-mode="bf6_multiplayer">Multiplayer</button>
+        </div>
+
+
+        <main>
+            <div id="weapon-list">
+            </div>
+        </main>
+
+        <nav class="bottom-nav">
+            <button class="nav-item active" data-filter="start">
+                <i class="fas fa-home"></i>
+                <span>Übersicht</span>
+            </button>
+            <button class="nav-item" data-filter="all">
+                <i class="fas fa-list-ol"></i>
+                <span>Meta-Ranking</span>
+            </button>
+            <button class="nav-item" data-filter="favorites">
+                <i class="fas fa-star"></i>
+                <span>Favoriten</span>
+            </button>
+            <button class="nav-item" data-filter="community">
+                <i class="fas fa-users"></i>
+                <span>Community</span>
+            </button>
+        </nav>
+    </div>
+    
+    <div id="settings-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h2>Einstellungen</h2>
+            <div class="setting-item">
+                <span>Dark Mode / Light Mode</span>
+                <label class="switch">
+                    <input type="checkbox" id="dark-mode-toggle">
+                    <span class="slider round"></span>
+                </label>
+            </div>
+            <div class="setting-item">
+                <span>App Version:</span>
+                <span id="app-version-display">Wird geladen...</span>
+            </div>
+        </div>
+    </div>
+    
+    <div id="update-toast" class="update-toast">
+        <span id="toast-message">Ein App-Update ist verfügbar!</span>
+        <button id="reload-button">Neu laden</button>
+    </div>
+
+    <script src="script.js"></script>
+    
+    </body>
+</html>
+
+
+
+
+
+
+
+
+
+
+>>>>>>> 5b44b6b46967f38001e6e751a889777021e135cd
