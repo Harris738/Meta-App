@@ -1,5 +1,5 @@
 {
-    "appVersion": "1.0.1",
+    "appVersion": "1.0.2",
     "weapons": [
         {
             "name": "KILO 141",
@@ -392,11 +392,30 @@
                 {"slot": "Munition","name": "Polymerhülse"},
                 {"slot": "Unterlauf","name": "Kurz,Gerippt"}
             ]
+        },
+        {
+            "name": "SCW-10",
+            "category": "Kurze Reichweite",
+            "game": "bf6_multiplayer",
+            "tier": "B-Tier",
+            "type": "LMG",
+            "pick": "3.8",
+            "loadout": [
+                {"slot": "Mündung","name": "Nahkampf-Schalldämpfer"},
+                {"slot": "Lauf","name": "6.8 Werk"},
+                {"slot": "Visier","name": "RO-S1.25X"},
+                {"slot": "Magazin","name": "25-Schuss-Magazin"},
+                {"slot": "Munition","name": "VMG"},
+                {"slot": "Unterlauf","name": "Kurz,Gerippt"}
+            ]
         }
 
 
     ]
 }
+
+
+
 
 
 
