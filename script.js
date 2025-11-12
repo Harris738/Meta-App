@@ -729,19 +729,22 @@ function showUpdateToast(newVersion) {
 // ===================================================
 
 if ('serviceWorker' in navigator) {
+    // Stellen Sie sicher, dass der controllerchange-Listener existiert,
+    // BEVOR der Service Worker registriert/aktualisiert wird.
+    // Dieser Listener ist derjenige, der die Seite nach skipWaiting neu lädt.
+    navigator.serviceWorker.addEventListener('controllerchange', () => {
+        console.log("Service Worker-Controller gewechselt. Lade Seite neu...");
+        // Wenn der Controller wechselt (nach skipWaiting), lade neu.
+        window.location.reload();
+    });
+    
+    // Registriere oder hole die existierende Registrierung
     navigator.serviceWorker.register('./service-worker.js')
         .then(reg => {
             console.log('Service Worker erfolgreich registriert:', reg);
             
-            // ✅ HINZUGEFÜGT: Erzwingt die sofortige Update-Prüfung, sobald der Service Worker registriert ist.
-            // Dies ist wichtig für PWAs auf mobilen Geräten.
+            // ✅ Fix 1: Erzwinge die sofortige Update-Prüfung beim App-Start.
             reg.update();
-
-            // FIX: Füge den controllerchange Listener hier hinzu!
-            navigator.serviceWorker.addEventListener('controllerchange', () => {
-                // Wenn der Controller wechselt (nach skipWaiting), lade neu.
-                window.location.reload();
-            });
 
             // WICHTIG: Wenn ein Update gefunden wird (neue .js oder .html gecacht), den Worker speichern
             reg.onupdatefound = () => {
@@ -768,6 +771,7 @@ if ('serviceWorker' in navigator) {
 
 
 document.addEventListener('DOMContentLoaded', loadMetaWeapons);
+
 
 
 
