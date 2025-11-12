@@ -1,5 +1,5 @@
 {
-    "appVersion": "1.0.1",
+    "appVersion": "1.0.0",
     "weapons": [
         {
             "name": "KILO 141",
@@ -360,11 +360,28 @@
                 {"slot": "Munition","name": "VMG"},
                 {"slot": "Unterlauf","name": "Kurz,Gerippt"}
             ]
+        },
+        {
+            "name": "M4A1",
+            "category": "Lange Reichweite",
+            "game": "bf6_multiplayer",
+            "tier": "S-Tier",
+            "type": "Karabiner",
+            "pick": "5.8",
+            "loadout": [
+                {"slot": "Mündung","name": "Kompensierte Mündungsbremse"},
+                {"slot": "Lauf","name": "12.5 Mittellang"},
+                {"slot": "Visier","name": "RO-S1.25X"},
+                {"slot": "Magazin","name": "30-Schuss-Magazin"},
+                {"slot": "Munition","name": "VMG"},
+                {"slot": "Unterlauf","name": "Kurz,Gerippt"}
+            ]
         }
 
 
     ]
 }
+
 
 
 
