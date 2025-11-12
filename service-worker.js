@@ -1,5 +1,5 @@
 // Service Worker Version - MUSS BEI JEDER ÄNDERUNG ERHÖHT WERDEN!
-const CACHE_NAME = 'meta-app-cache-v1.1.1';
+const CACHE_NAME = 'meta-app-cache-v1.1.2';
 const DATA_CACHE_NAME = 'meta-data-cache-v1';
 
 // Eine Liste aller Dateien, die IMMER gecacht werden sollen (App-Shell)
@@ -104,6 +104,7 @@ self.addEventListener('message', event => {
         self.skipWaiting();
     }
 });
+
 
 
 
