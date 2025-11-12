@@ -1,5 +1,5 @@
 // Service Worker Version - MUSS BEI JEDER ÄNDERUNG ERHÖHT WERDEN!
-const CACHE_NAME = 'meta-app-cache-v1.0.9';
+const CACHE_NAME = 'meta-app-cache-v1.1.0';
 const DATA_CACHE_NAME = 'meta-data-cache-v1';
 
 // Eine Liste aller Dateien, die IMMER gecacht werden sollen (App-Shell)
@@ -19,7 +19,6 @@ const urlsToCache = [
 // 1. INSTALLATION: App-Shell Dateien in den Cache legen
 self.addEventListener('install', event => {
     console.log('Service Worker installiert. Cache-Name:', CACHE_NAME);
-    // Der Worker geht nach der Installation in den "waiting"-Status
     event.waitUntil(
         caches.open(CACHE_NAME)
             .then(cache => {
@@ -32,8 +31,9 @@ self.addEventListener('install', event => {
 self.addEventListener('activate', event => {
     console.log('Service Worker aktiviert.');
     
-    // KORREKTUR für PWA-Updates: Erzwingt sofortige Übernahme, um alte Worker in der App abzulösen.
-    self.skipWaiting(); 
+    // KORREKTUR für PWA-Updates: Entferne den direkten self.skipWaiting() Aufruf hier.
+    // Die Aktivierung wird durch die postMessage-Nachricht bei Klick auf "Neu laden" gesteuert.
+    // self.skipWaiting(); 
 
     // Erzwingt die sofortige Übernahme der Kontrolle über alle Clients
     event.waitUntil(self.clients.claim()); 
@@ -96,7 +96,7 @@ self.addEventListener('fetch', event => {
     );
 });
 
-// 4. Nachrichten-Handler (Bleibt zur Sicherheit erhalten):
+// 4. Nachrichten-Handler (WICHTIG für das Update):
 // Ermöglicht dem Hauptskript, den Service Worker zur sofortigen Übernahme (skipWaiting) zu zwingen.
 self.addEventListener('message', event => {
     if (event.data && event.data.action === 'skipWaiting') {
@@ -104,6 +104,7 @@ self.addEventListener('message', event => {
         self.skipWaiting();
     }
 });
+
 
 
 
