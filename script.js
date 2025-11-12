@@ -7,7 +7,7 @@ let currentWeaponList = [];
 let currentMainGame = 'warzone'; 
 let currentActiveGame = 'warzone'; 
 
-const CURRENT_APP_VERSION = "1.1.1"; // ✅ AKTUELLE BASISVERSION FÜR KONTROLLE
+const CURRENT_APP_VERSION = "1.1.2"; // ✅ AKTUELLE BASISVERSION FÜR KONTROLLE
 
 let newWorker; // Globale Variable für den Service Worker
 
@@ -732,6 +732,10 @@ if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('./service-worker.js')
         .then(reg => {
             console.log('Service Worker erfolgreich registriert:', reg);
+            
+            // ✅ HINZUGEFÜGT: Erzwingt die sofortige Update-Prüfung, sobald der Service Worker registriert ist.
+            // Dies ist wichtig für PWAs auf mobilen Geräten.
+            reg.update();
 
             // FIX: Füge den controllerchange Listener hier hinzu!
             navigator.serviceWorker.addEventListener('controllerchange', () => {
@@ -764,6 +768,7 @@ if ('serviceWorker' in navigator) {
 
 
 document.addEventListener('DOMContentLoaded', loadMetaWeapons);
+
 
 
 
