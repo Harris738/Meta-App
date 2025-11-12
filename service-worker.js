@@ -57,26 +57,20 @@ self.addEventListener('activate', event => {
 self.addEventListener('fetch', event => {
     const url = new URL(event.request.url);
 
-    // Sonderbehandlung für die Metadaten: Stale-While-Revalidate
+    // ✅ KORREKTUR: Network-First mit Cache Fallback für meta-data.json
     if (url.pathname.endsWith('/meta-data.json')) {
         event.respondWith(
             caches.open(DATA_CACHE_NAME).then(cache => {
-                // 1. Liefere sofort die gecachte Version (falls vorhanden)
-                return cache.match(event.request).then(cachedResponse => {
-                    // 2. Hole die neueste Version im Hintergrund vom Netzwerk
-                    const fetchPromise = fetch(event.request).then(networkResponse => {
-                        // Speichere die neue Version für das nächste Mal
+                // 1. Versuche das Netzwerk (Netzwerk-First)
+                return fetch(event.request)
+                    .then(networkResponse => {
+                        // Wenn erfolgreich, speichere die neue Version und liefere sie aus
                         cache.put(event.request, networkResponse.clone());
                         return networkResponse;
-                    }).catch(error => {
-                        console.error('Daten-Update fehlgeschlagen:', error);
-                        // Wenn Netzwerk fehlschlägt, den ursprünglichen Fehler weiterleiten
-                        throw error;
+                    }).catch(() => {
+                        // 2. Wenn Netzwerk fehlschlägt, liefere die gecachte Version (Cache Fallback)
+                        return cache.match(event.request);
                     });
-                    
-                    // Liefere entweder die gecachte Version sofort oder warte auf das Netzwerk
-                    return cachedResponse || fetchPromise;
-                });
             })
         );
         return;
