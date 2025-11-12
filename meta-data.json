@@ -1,5 +1,5 @@
 {
-    "appVersion": "1.0.0",
+    "appVersion": "1.0.1",
     "weapons": [
         {
             "name": "KILO 141",
@@ -376,11 +376,29 @@
                 {"slot": "Munition","name": "VMG"},
                 {"slot": "Unterlauf","name": "Kurz,Gerippt"}
             ]
+        },
+        {
+            "name": "KTS100 MK8",
+            "category": "Lange Reichweite",
+            "game": "bf6_multiplayer",
+            "tier": "A-Tier",
+            "type": "LMG",
+            "pick": "4.9",
+            "loadout": [
+                {"slot": "Mündung","name": "Nahkampf-Schalldämpfer"},
+                {"slot": "Lauf","name": "508MM MK8"},
+                {"slot": "Visier","name": "RO-S1.25X"},
+                {"slot": "Magazin","name": "45-Schuss-Schnellmagazin"},
+                {"slot": "Munition","name": "Polymerhülse"},
+                {"slot": "Unterlauf","name": "Kurz,Gerippt"}
+            ]
         }
 
 
     ]
 }
+
+
 
 
 
