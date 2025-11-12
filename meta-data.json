@@ -1,5 +1,5 @@
 {
-    "appVersion": "1.0.9",
+    "appVersion": "1.1.0",
     "weapons": [
         {
             "name": "KILO 141",
@@ -269,7 +269,7 @@
             "game": "bf6_redsec",
             "tier": "A-Tier",
             "type": "Maschinenpistole",
-            "pick": "4,9",
+            "pick": "4.9",
             "loadout": [
                 {"slot": "Mündung","name": "Nahkampf-Schalldämpfer"},
                 {"slot": "Lauf","name": "407MM CIV-S"},
@@ -365,6 +365,9 @@
 
     ]
 }
+
+
+
 
 
 
