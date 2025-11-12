@@ -7,7 +7,7 @@ let currentWeaponList = [];
 let currentMainGame = 'warzone'; 
 let currentActiveGame = 'warzone'; 
 
-const CURRENT_APP_VERSION = "1.0.0"; // ✅ AKTUELLE BASISVERSION FÜR KONTROLLE
+const CURRENT_APP_VERSION = "1.1.6"; // ✅ AKTUELLE BASISVERSION FÜR KONTROLLE
 
 let newWorker; // Globale Variable für den Service Worker
 
@@ -710,8 +710,16 @@ function showUpdateToast(newVersion) {
                 newWorker.postMessage({ action: 'skipWaiting' });
             }
             
-            // ✅ KORREKTUR: Toast sofort ausblenden, damit er bei erfolgreichem Reload verschwindet.
+            // Toast sofort ausblenden
             updateToast.classList.remove('show');
+            
+            // ✅ KORREKTUR: Fallback-Reload nach 3 Sekunden
+            // Wenn der controllerchange Listener in der PWA-Umgebung fehlschlägt,
+            // erzwingen wir eine späte Neuladung als Fallback.
+            setTimeout(() => {
+                 console.log("Fallback-Reload nach 3 Sekunden ausgelöst.");
+                 window.location.reload(true); // true forces reload from server
+            }, 3000);
             
             // WICHTIG: KEIN window.location.reload() HIER! Das macht der controllerchange-Listener.
         };
@@ -729,9 +737,8 @@ function showUpdateToast(newVersion) {
 // ===================================================
 
 if ('serviceWorker' in navigator) {
-    // Stellen Sie sicher, dass der controllerchange-Listener existiert,
-    // BEVOR der Service Worker registriert/aktualisiert wird.
-    // Dieser Listener ist derjenige, der die Seite nach skipWaiting neu lädt.
+    // ✅ KORREKTUR VOM VORHERIGEN SCHRITT: Controllerchange-Listener nach oben verschoben.
+    // Dieser Listener löst das Neuladen aus, nachdem skipWaiting erfolgreich war.
     navigator.serviceWorker.addEventListener('controllerchange', () => {
         console.log("Service Worker-Controller gewechselt. Lade Seite neu...");
         // Wenn der Controller wechselt (nach skipWaiting), lade neu.
@@ -743,7 +750,7 @@ if ('serviceWorker' in navigator) {
         .then(reg => {
             console.log('Service Worker erfolgreich registriert:', reg);
             
-            // ✅ Fix 1: Erzwinge die sofortige Update-Prüfung beim App-Start.
+            // Erzwinge die sofortige Update-Prüfung beim App-Start.
             reg.update();
 
             // WICHTIG: Wenn ein Update gefunden wird (neue .js oder .html gecacht), den Worker speichern
